@@ -76,10 +76,44 @@ async def pokemon(Type_1: Annotated[str, Form()], Type_2: Annotated[str, Form()]
                     Weight_kg: Annotated[float, Form()], 
                     # Catch_Rate: Annotated[int, Form()],
                     Body_Style: Annotated[str, Form()]):
+    
     pokemon_data = [[Type_1, Type_2, Total, hp, attack, defense, Sp_Atk, Sp_Def, Speed, 
     Generation, Color, Pr_Male, Egg_Group_1, hasMegaEvolution, Height_m, Weight_kg, Body_Style]]
+    
     df = pd.DataFrame(pokemon_data, columns=['Type_1', 'Type_2', 'Total', 'HP', 'Attack', 'Defense', 'Sp_Atk',
      'Sp_Def', 'Speed', 'Generation', 'Color', 'Pr_Male', 'Egg_Group_1', 'hasMegaEvolution', 'Height_m', 'Weight_kg', 'Body_Style'])
-    prediction = predict_legendaryStatus(df)
+
+    data_dict = {'Type_1': Type_1, 'Type_2': Type_2, 'Total': Total, 'HP': hp, 'Attack': attack, 'Defense': defense, 'Sp_Atk': Sp_Atk,
+                    'Sp_Def': Sp_Def, 'Speed': Speed, 'Generation': Generation, 'Color': Color, 'Pr_Male': Pr_Male, 'Egg_Group_1': Egg_Group_1,
+                    'hasMegaEvolution': hasMegaEvolution, 'Height_m': Height_m, 'Weight_kg': Weight_kg, 'Body_Style': Body_Style }
+
+    input_df = pd.DataFrame(data_dict, index=[0])
+    
+    prediction = predict_legendaryStatus(input_df)
+    
     return {"prediction": prediction}
 
+@app.get("/preset")
+def preset():
+    input={
+    'Type_1':'Grass',
+    'Type_2':'Poison',
+    'Total':318,
+    'HP':45,
+    'Attack':49,
+    'Defense':49,
+    'Sp_Atk':65,
+    'Sp_Def':65,
+    'Speed':45,
+    'Generation':1,
+    'Color':'Green',
+    'Pr_Male':0.875,
+    'Egg_Group_1':'Monster',
+    'hasMegaEvolution':False,
+    'Height_m':0.71,
+    'Weight_kg':6.9,
+    'Body_Style':'quadruped'}
+
+    input = pd.DataFrame(input,index=[0])
+    prediction = predict_legendaryStatus(input)
+    return {"prediction": prediction}
