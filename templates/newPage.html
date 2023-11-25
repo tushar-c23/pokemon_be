@@ -133,6 +133,29 @@
         </div>
         <button type="submit">Submit</button>
     </form>
+    <script>
+        // Function to save form values to localStorage
+        function saveFormValues() {
+            const formElements = document.querySelectorAll('input');
+            formElements.forEach(element => {
+                localStorage.setItem(element.name, element.value);
+            });
+        }
+
+        // Function to load form values from localStorage
+        function loadFormValues() {
+            const formElements = document.querySelectorAll('input');
+            formElements.forEach(element => {
+                const savedValue = localStorage.getItem(element.name);
+                if (savedValue) {
+                    element.value = savedValue;
+                }
+            });
+        }
+
+        // Load form values when the page loads
+        loadFormValues();
+    </script>
 </body>
 
 </html>
