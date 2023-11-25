@@ -5,72 +5,74 @@ from fastapi.responses import HTMLResponse
 import pandas as pd
 from fastapi.templating import Jinja2Templates
     
-def generate_html_response():
+def generate_html_response(prediction):
     html_content = """
         <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Pokemon Legendary or not</title>
-    </head>
-    <body>
-        <h1>Pokemon Legendary Status Predictor</h1>
-        <form action="/predict" method="post">
-            <label for="Type_1">Pokemon Type 1</label>
-            <input type="text" name="Type_1" placeholder="Pokemon Type 1">
-            <label for="Type_2">Pokemon Type 2</label>
-            <input type="text" name="Type_2" placeholder="Pokemon Type 2">
-            <label for="Total">Total</label>
-            <input type="number" name="Total" placeholder="Total">
-            <label for="hp">HP</label>
-            <input type="number" name="hp" placeholder="HP">
-            <label for="attack">Attack</label>
-            <input type="number" name="attack" placeholder="Attack">
-            <label for="defense">Defense</label>
-            <input type="number" name="defense" placeholder="Defense">
-            <label for="Sp_Atk">Sp. Attack</label>
-            <input type="number" name="Sp_Atk" placeholder="Sp. Attack">
-            <label for="Sp_Def">Sp. Defense</label>
-            <input type="number" name="Sp_Def" placeholder="Sp. Defense">
-            <label for="Speed">Speed</label>
-            <input type="number" name="Speed" placeholder="Speed">
-            <label for="Generation">Generation</label>
-            <input type="number" name="Generation" placeholder="Generation">
-            <label for="Color">Color</label>
-            <input type="text" name="Color" placeholder="Color">
-            <label for="Pr_Male">Pr_Male</label>
-            <input type="text" name="Pr_Male" placeholder="Pr_Male">
-            <label for="Egg_Group_1">Egg Group 1</label>
-            <input type="text" name="Egg_Group_1" placeholder="Egg Group 1">
-            <label for="hasMegaEvolution">hasMegaEvolution</label>
-            <input type="boolean" name="hasMegaEvolution" placeholder="hasMegaEvolution">
-            <label for="Height_m">Height_m</label>
-            <input type="text" name="Height_m" placeholder="Height_m">
-            <label for="Weight_kg">Weight_kg</label>
-            <input type="text" name="Weight_kg" placeholder="Weight_kg">
-            <label for="Body_Style">Body Style</label>
-            <input type="text" name="Body_Style" placeholder="Body Style">
-            <button>Submit</button>
-        </form>
-    </body>
-    </html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Prediction</title>
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+            <style>
+                body {
+                    margin: 0;
+                    padding: 0;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    min-height: 100vh;
+                    background: linear-gradient(to right, #3498db, #6C63FF); /* Updated gradient colors */
+                }
+
+                header {
+                    text-align: center;
+                    color: #fff; /* White text color */
+                    font-family: 'Press Start 2P', cursive;
+                    margin-bottom: 20px;
+                    padding: 20px;
+                    background: linear-gradient(to right, #e74c3c, #ff9c2b); /* Header gradient colors */
+                }
+
+                header a {
+                    text-decoration: none;
+                    color: #fff; /* White text color */
+                }
+
+                h1 {
+                    text-align: center;
+                    color: #e74c3c; /* Pokemon Red Color */
+                    font-family: 'Press Start 2P', cursive;
+                    margin: 0;
+                }
+            </style>
+        </head>
+        <body>
+            <header>
+                <a href="/">Pokemon Legendary Status Predictor</a>
+            </header>
+            <h1>{Prediction}</h1>
+        </body>
+        </html>
+
     """
+    if(prediction == 0):
+        prediction = "Not Legendary"
+    else:
+        prediction = "Legendary"
+    html_content = html_content.replace("{Prediction}", str(prediction))
     return HTMLResponse(content=html_content, status_code=200)
 
 app = FastAPI()
 
 templates = Jinja2Templates(directory="templates")
 
-@app.get("/")
-def read_root():
-    return generate_html_response()
-
-@app.get("/form", response_class=HTMLResponse)
+@app.get("/", response_class=HTMLResponse)
 async def read_form(request: Request):
     return templates.TemplateResponse("newPage.html", {"request": request})
 
-@app.post("/predict/")
+@app.post("/predict/", response_class=HTMLResponse)
 async def pokemon(Type_1: Annotated[str, Form()], Type_2: Annotated[str, Form()],
                     Total: Annotated[int, Form()], hp: Annotated[int, Form()], 
                     attack: Annotated[int, Form()], defense: Annotated[int, Form()],
@@ -98,7 +100,8 @@ async def pokemon(Type_1: Annotated[str, Form()], Type_2: Annotated[str, Form()]
     
     prediction = predict_legendaryStatus(input_df)
     
-    return {"prediction": prediction}
+    htmlResponsePage = generate_html_response(prediction)
+    return htmlResponsePage
 
 @app.get("/preset")
 def preset():
