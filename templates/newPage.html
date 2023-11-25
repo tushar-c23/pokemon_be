@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon Legendary or not</title>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Quicksand:wght@400;700&display=swap">
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(to right, #FFCB05, #FFD101, #FFDD00, #FFE800, #FFEC04);
+            /* Pokemon-themed gradient */
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        h1 {
+            text-align: center;
+            color: #e74c3c;
+            /* Pokemon Red Color */
+            font-family: 'Press Start 2P', cursive;
+            margin-bottom: 30px;
+        }
+
+        .flex-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            align-items: center;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 800px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .form-column {
+            width: 48%;
+            /* Adjust as needed */
+        }
+
+        label {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #2c3e50;
+            /* Dark Blue-Grey */
+            display: block;
+        }
+
+        input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border: 1px solid #bdc3c7;
+            /* Silver */
+            border-radius: 4px;
+            display: block;
+        }
+
+        button {
+            background-color: #3498db;
+            /* Blue */
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            display: block;
+            box-sizing: border-box;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+            /* Darker Blue */
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Pokemon Legendary Status Predictor</h1>
+    <form action="/predict" method="post" class="flex-container">
+        <div class="form-column">
+            <label for="Type_1">Pokemon Type 1</label>
+            <input type="text" name="Type_1" placeholder="Pokemon Type 1">
+            <label for="Type_2">Pokemon Type 2</label>
+            <input type="text" name="Type_2" placeholder="Pokemon Type 2">
+            <label for="Total">Total</label>
+            <input type="number" name="Total" placeholder="Total">
+            <label for="hp">HP</label>
+            <input type="number" name="hp" placeholder="HP">
+            <label for="attack">Attack</label>
+            <input type="number" name="attack" placeholder="Attack">
+            <label for="defense">Defense</label>
+            <input type="number" name="defense" placeholder="Defense">
+            <label for="Sp_Atk">Sp. Attack</label>
+            <input type="number" name="Sp_Atk" placeholder="Sp. Attack">
+            <label for="Sp_Def">Sp. Defense</label>
+            <input type="number" name="Sp_Def" placeholder="Sp. Defense">
+            <label for="Speed">Speed</label>
+            <input type="number" name="Speed" placeholder="Speed">
+        </div>
+        <div class="form-column">
+            <label for="Generation">Generation</label>
+            <input type="number" name="Generation" placeholder="Generation">
+            <label for="Color">Color</label>
+            <input type="text" name="Color" placeholder="Color">
+            <label for="Pr_Male">Pr_Male</label>
+            <input type="text" name="Pr_Male" placeholder="Pr_Male">
+            <label for="Egg_Group_1">Egg Group 1</label>
+            <input type="text" name="Egg_Group_1" placeholder="Egg Group 1">
+            <label for="hasMegaEvolution">hasMegaEvolution</label>
+            <input type="boolean" name="hasMegaEvolution" placeholder="hasMegaEvolution">
+            <label for="Height_m">Height_m</label>
+            <input type="text" name="Height_m" placeholder="Height_m">
+            <label for="Weight_kg">Weight_kg</label>
+            <input type="text" name="Weight_kg" placeholder="Weight_kg">
+            <label for="Body_Style">Body Style</label>
+            <input type="text" name="Body_Style" placeholder="Body Style">
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+
+</html>

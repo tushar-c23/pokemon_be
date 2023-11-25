@@ -1,8 +1,9 @@
 from typing import Union, Annotated
-from fastapi import FastAPI, Form
+from fastapi import FastAPI, Form, Request
 from model import predict_legendaryStatus
 from fastapi.responses import HTMLResponse
 import pandas as pd
+from fastapi.templating import Jinja2Templates
     
 def generate_html_response():
     html_content = """
@@ -59,9 +60,15 @@ def generate_html_response():
 
 app = FastAPI()
 
+templates = Jinja2Templates(directory="templates")
+
 @app.get("/")
 def read_root():
     return generate_html_response()
+
+@app.get("/form", response_class=HTMLResponse)
+async def read_form(request: Request):
+    return templates.TemplateResponse("newPage.html", {"request": request})
 
 @app.post("/predict/")
 async def pokemon(Type_1: Annotated[str, Form()], Type_2: Annotated[str, Form()],

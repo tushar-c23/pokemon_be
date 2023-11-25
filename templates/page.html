@@ -4,10 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokemon Legendary or not</title>
+    <style>
+        .flex-container {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            background-color: #f2f2f2;
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
     <h1>Pokemon Legendary Status Predictor</h1>
-    <form action="/predict" method="post">
+    <form action="/predict" method="post" class="flex-container">
         <label for="Type_1">Pokemon Type 1</label>
         <input type="text" name="Type_1" placeholder="Pokemon Type 1">
         <label for="Type_2">Pokemon Type 2</label>
